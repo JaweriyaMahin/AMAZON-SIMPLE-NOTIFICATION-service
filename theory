@@ -1,0 +1,159 @@
+AWS SNS — Theory Only
+
+Amazon Simple Notification Service (SNS) is a fully managed messaging and notification service from AWS.
+
+Its main purpose is to send messages/notifications from one publisher to multiple subscribers.
+
+1. Simple Meaning
+
+Think of SNS like a notification broadcast system.
+
+              SNS Topic
+             /    |    \
+            ↓     ↓     ↓
+          Email   SMS   SQS
+
+One message can be delivered to multiple destinations.
+
+2. Why do we need SNS?
+
+Suppose an application detects that an EC2 server is unhealthy.
+
+You may want to notify:
+
+DevOps team through email
+An application through SQS
+Someone through SMS
+Another AWS service
+
+Instead of sending each notification separately, the application can publish one message to an SNS topic.
+
+SNS distributes that message to the configured subscribers.
+
+3. Important SNS Components
+Topic
+
+A Topic is a communication channel.
+
+Example:
+
+EC2-Alerts
+
+Publishers send messages to the topic.
+
+Subscribers receive messages from the topic.
+
+Publisher
+
+The publisher is the component that sends a message to SNS.
+
+Examples:
+
+Application
+EC2
+Lambda
+CloudWatch
+Other AWS services
+
+Example:
+
+CloudWatch → SNS Topic
+Subscriber
+
+A subscriber is the destination that receives messages from SNS.
+
+Examples:
+
+Email
+SMS
+SQS
+Lambda
+HTTP/HTTPS endpoint
+4. How SNS Works
+
+Basic flow:
+
+Publisher
+    ↓
+SNS Topic
+    ↓
+ ┌──┴─────┬──────┬──────┐
+ ↓        ↓      ↓      ↓
+Email    SQS   Lambda   SMS
+
+Example:
+
+CloudWatch detects an alarm.
+CloudWatch publishes a message to SNS.
+SNS receives the message.
+SNS sends the message to subscribed endpoints.
+Subscribers process the notification.
+5. SNS Pub/Sub Model
+
+SNS uses a Publish/Subscribe (Pub/Sub) model.
+
+Publish
+
+A publisher sends a message to a topic.
+
+Subscribe
+
+Consumers subscribe to the topic.
+
+Notify
+
+SNS distributes published messages to subscribers.
+
+Publisher
+    ↓
+ Publish
+    ↓
+  Topic
+    ↓
+ Notify subscribers
+6. SNS Topic Types
+
+There are two important SNS topic types:
+
+Standard Topic
+
+Designed for high-throughput messaging.
+
+Characteristics:
+
+Very high throughput
+At-least-once message delivery
+Messages can potentially be delivered more than once
+Message ordering isn't guaranteed
+FIFO Topic
+
+FIFO = First In, First Out
+
+Designed when message ordering and deduplication are important.
+
+Characteristics:
+
+Message ordering
+Message deduplication
+More controlled message processing
+7. SNS Delivery Protocols
+
+SNS can deliver messages through different protocols/endpoints, including:
+
+HTTP
+HTTPS
+Email
+Email-JSON
+SMS
+SQS
+Lambda
+Platform applications
+
+For AWS Cloud/DevOps interviews, especially understand:
+
+SNS → Email
+
+SNS → SQS
+
+SNS → Lambda
+
